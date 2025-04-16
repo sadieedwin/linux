@@ -1,0 +1,68 @@
+🛠️ To properly rename the hostname on an Ubuntu EC2 instance:
+Use hostnamectl to change the hostname:
+
+bash
+Copy
+Edit
+sudo hostnamectl set-hostname new-hostname
+Update /etc/hosts (optional but recommended for local name resolution):
+
+bash
+Copy
+Edit
+sudo nano /etc/hosts
+Update the line:
+
+sql
+Copy
+Edit
+127.0.1.1    old-hostname
+to:
+
+cpp
+Copy
+Edit
+127.0.1.1    new-hostname
+Verify:
+
+bash
+Copy
+Edit
+hostname
+hostnamectl
+Reboot (optional but ensures everything reflects the new name):
+
+bash
+Copy
+Edit
+sudo reboot
+🔁 After a stop/start?
+As long as you're not using cloud-init to reapply a default hostname, and nothing resets it via automation (e.g., a user-data script), the new hostname stays.
+
+🧠 Bonus Tip: Prevent hostname reset by cloud-init (just in case)
+If you’re using cloud-init, sometimes it resets the hostname on boot. You can prevent this by:
+
+Edit:
+
+bash
+Copy
+Edit
+sudo nano /etc/cloud/cloud.cfg
+Find this line:
+
+yaml
+Copy
+Edit
+preserve_hostname: false
+Change it to:
+
+yaml
+Copy
+Edit
+preserve_hostname: true
+Then:
+
+bash
+Copy
+Edit
+sudo hostnamectl set-hostname your-hostname
